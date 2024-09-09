@@ -6,10 +6,18 @@
   "license": "MPL-2.0",
   "type": "module",
   "devDependencies": {
+    "@eslint/js": "^9.10.0",
     "@types/node": "^20.5.7",
-    "typescript": "^5.2.2"
+    "eslint": "^9.10.0",
+    "globals": "^15.9.0",
+    "typescript": "^5.2.2",
+    "typescript-eslint": "^8.4.0",
+    "vitest": "^2.0.5"
   },
   "dependencies": {
     "encore.dev": "^1.40.5"
+  },
+  "scripts": {
+    "test": "vitest watch --pool=forks"
   }
 }
