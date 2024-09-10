@@ -10,6 +10,7 @@ interface ShortnerRequest {
 
 interface ShortnerResponse {
   shortid: string;
+  url: string;
 }
 
 export const shortner = api<ShortnerRequest, ShortnerResponse>(
@@ -19,9 +20,9 @@ export const shortner = api<ShortnerRequest, ShortnerResponse>(
     path: "/url",
   },
   async ({ url }) => {
-    const shortid = randomBytes(4).toString("base64url");
+    const shortid = randomBytes(6).toString("base64url");
     await db.exec`INSERT INTO urls (id, url) VALUES (${shortid}, ${url});`;
-    return { shortid: `/${shortid}` };
+    return { url, shortid: `/${shortid}` };
   },
 );
 

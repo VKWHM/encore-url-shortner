@@ -29,16 +29,17 @@ describe("URL Shortner Endpoints", () => {
       expect(status_code).toBe(200);
     });
 
-    it("should give shortid at response body", () => {
-      const shortid = url_response_body.shortid;
+    it("should give shortid and requested url at response body", () => {
+      const { shortid, url } = url_response_body;
 
       expect(shortid).not.toBeUndefined();
+      expect(url).toBe(requested_url.url);
     });
 
     it("should retrieve valid url", () => {
       const url = new URL(`${HOST}${url_response_body.shortid || ""}`);
 
-      expect(url.pathname).toHaveLength(1 + 6); // 1 (/) + 6 (random string)
+      expect(url.pathname).toHaveLength(1 + 8); // 1 (/) + 6 (random string)
     });
   });
 
