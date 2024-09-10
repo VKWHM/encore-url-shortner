@@ -41,6 +41,18 @@ describe("URL Shortner Endpoints", () => {
 
       expect(url.pathname).toHaveLength(1 + 8); // 1 (/) + 6 (random string)
     });
+
+    it("should reject invalid urls via 400", async () => {
+      const invalid_url = { url: "this is invalid url" };
+      url_request_options.body = JSON.stringify(invalid_url);
+
+      const response: Response = await fetch(
+        `${HOST}/url`,
+        url_request_options,
+      ).catch((error) => error.response);
+
+      expect(response.status).toBe(400);
+    });
   });
 
   describe("Get Long URL Endpoint", () => {

@@ -1,4 +1,4 @@
-import { APIError, api } from "encore.dev/api";
+import { APIError, ErrCode, api } from "encore.dev/api";
 import { SQLDatabase } from "encore.dev/storage/sqldb";
 import { randomBytes } from "node:crypto";
 
@@ -20,6 +20,11 @@ export const shortner = api<ShortnerRequest, ShortnerResponse>(
     path: "/url",
   },
   async ({ url }) => {
+    try {
+      new URL(url);
+    } catch (err) {
+      throw new APIError(ErrCode.InvalidArgument, (err as TypeError).message);
+    }
     const shortid = randomBytes(6).toString("base64url");
     await db.exec`INSERT INTO urls (id, url) VALUES (${shortid}, ${url});`;
     return { url, shortid: `/${shortid}` };
