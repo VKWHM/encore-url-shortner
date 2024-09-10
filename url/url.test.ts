@@ -70,5 +70,15 @@ describe("URL Shortner Endpoints", () => {
 
       expect(url).toBe(requested_url.url);
     });
+
+    it("should return 404 for non-exists ids", async () => {
+      const url = `${HOST}/non-exists-url`;
+
+      const response: Response = await fetch(url).catch(
+        (error) => error.response,
+      );
+
+      expect(response?.status).toBe(404);
+    });
   });
 });

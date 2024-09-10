@@ -1,4 +1,4 @@
-import { api } from "encore.dev/api";
+import { APIError, api } from "encore.dev/api";
 import { SQLDatabase } from "encore.dev/storage/sqldb";
 import { randomBytes } from "node:crypto";
 
@@ -37,6 +37,7 @@ export const longner = api<LongnerRequest, LongnerResponse>(
   { path: "/:shortid", method: "GET", expose: true },
   async ({ shortid }) => {
     const row = await db.queryRow`SELECT url FROM urls WHERE id = ${shortid}`;
+    if (!row) throw APIError.notFound("id not exists");
     return { url: row?.url };
   },
 );
